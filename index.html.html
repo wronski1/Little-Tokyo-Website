@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Little Tokyo — Norwalk, CT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Shippori+Mincho:wght@400;500;600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --ink: #0e0c0a;
+    --parchment: #f5f0e8;
+    --cream: #faf7f2;
+    --gold: #b8973a;
+    --gold-light: #d4b05a;
+    --red: #8b1a1a;
+    --red-muted: #c0392b22;
+    --charcoal: #1c1a17;
+    --warm-gray: #6b6560;
+    --border: rgba(184,151,58,0.25);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ─── CURSOR ─── */
+  * { cursor: none; }
+  #cursor {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, opacity 0.2s;
+    mix-blend-mode: difference;
+  }
+  #cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(184,151,58,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.12s ease-out;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 2rem 4rem;
+    mix-blend-mode: normal;
+  }
+  nav::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(14,12,10,0.9) 0%, transparent 100%);
+    pointer-events: none;
+  }
+  .nav-logo {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-decoration: none;
+    position: relative;
+    z-index: 1;
+  }
+  .nav-links {
+    display: flex; gap: 3rem;
+    list-style: none;
+    position: relative; z-index: 1;
+  }
+  .nav-links a {
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--parchment);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.3s, color 0.3s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
+  .nav-reserve {
+    position: relative; z-index: 1;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.6rem 1.4rem;
+    transition: background 0.3s, color 0.3s;
+  }
+  .nav-reserve:hover { background: var(--gold); color: var(--ink); }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 50%, rgba(184,151,58,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 100% 60% at 20% 80%, rgba(139,26,26,0.08) 0%, transparent 60%);
+  }
+  .hero-noise {
+    position: absolute; inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+
+  /* Japanese brush strokes decoration */
+  .hero-kanji {
+    position: absolute;
+    font-family: 'Shippori Mincho', serif;
+    color: rgba(184,151,58,0.06);
+    font-size: 28rem;
+    line-height: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .hero-line-left {
+    position: absolute;
+    left: 4rem; top: 50%;
+    transform: translateY(-50%);
+    width: 1px; height: 40vh;
+    background: linear-gradient(to bottom, transparent, var(--gold-light), transparent);
+    opacity: 0.3;
+  }
+  .hero-line-right {
+    position: absolute;
+    right: 4rem; top: 50%;
+    transform: translateY(-50%);
+    width: 1px; height: 40vh;
+    background: linear-gradient(to bottom, transparent, var(--gold-light), transparent);
+    opacity: 0.3;
+  }
+
+  .hero-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(5rem, 12vw, 10rem);
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.2em;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.5s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+  .hero-subtitle {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.3em;
+    color: rgba(245,240,232,0.5);
+    margin-bottom: 3.5rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.8s forwards;
+  }
+  .hero-cta-row {
+    display: flex; gap: 1.5rem; justify-content: center; align-items: center;
+    opacity: 0;
+    animation: fadeUp 1s 1.1s forwards;
+  }
+  .btn-primary {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--gold);
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-ghost {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--parchment);
+    border: 1px solid var(--border);
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    transition: border-color 0.3s, color 0.3s;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-scroll-hint {
+    position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+    opacity: 0;
+    animation: fadeIn 1s 1.8s forwards;
+  }
+  .hero-scroll-hint span {
+    font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: rgba(245,240,232,0.35);
+  }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* ─── INTRO BAND ─── */
+  .intro-band {
+    background: var(--gold);
+    padding: 1.2rem 4rem;
+    display: flex; align-items: center; justify-content: center; gap: 4rem;
+    overflow: hidden;
+  }
+  .intro-band-item {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--ink);
+    white-space: nowrap;
+    opacity: 0.85;
+    letter-spacing: 0.05em;
+  }
+  .intro-band-dot {
+    width: 4px; height: 4px;
+    background: var(--ink);
+    border-radius: 50%;
+    opacity: 0.3;
+    flex-shrink: 0;
+  }
+
+  /* ─── SECTIONS COMMON ─── */
+  section { position: relative; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 4rem; }
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    line-height: 1.1;
+  }
+  .gold-rule {
+    width: 60px; height: 1px;
+    background: var(--gold);
+    margin: 2rem 0;
+    opacity: 0.6;
+  }
+
+  /* ─── STORY ─── */
+  .story {
+    padding: 10rem 0 8rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8rem;
+    align-items: center;
+  }
+  .story-left .section-title { font-size: clamp(2.8rem, 4vw, 4.5rem); }
+  .story-right p {
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: rgba(245,240,232,0.7);
+    margin-bottom: 1.5rem;
+  }
+  .story-right p strong {
+    color: var(--parchment);
+    font-weight: 400;
+  }
+  .story-stat-row {
+    display: flex; gap: 3rem; margin-top: 3rem;
+  }
+  .story-stat {}
+  .story-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+  .story-stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+    margin-top: 0.3rem;
+  }
+
+  /* ─── MENU PREVIEW ─── */
+  .menu-section {
+    padding: 8rem 0;
+    background: var(--charcoal);
+  }
+  .menu-header {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
+  .menu-header .section-title { font-size: clamp(3rem, 5vw, 5rem); }
+  .menu-header .gold-rule { margin: 2rem auto; }
+  .menu-header p {
+    color: rgba(245,240,232,0.5);
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+  .menu-card {
+    padding: 3rem 2.5rem;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+  }
+  .menu-card:nth-child(3), .menu-card:nth-child(6) { border-right: none; }
+  .menu-card:nth-child(4), .menu-card:nth-child(5), .menu-card:nth-child(6) { border-bottom: none; }
+  .menu-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 100%, rgba(184,151,58,0.06) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .menu-card:hover::before { opacity: 1; }
+  .menu-card-kanji {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 4rem;
+    color: rgba(184,151,58,0.12);
+    position: absolute;
+    top: 1rem; right: 1.5rem;
+    line-height: 1;
+    transition: color 0.4s;
+  }
+  .menu-card:hover .menu-card-kanji { color: rgba(184,151,58,0.2); }
+  .menu-card-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.3em;
+    margin-bottom: 1.5rem;
+  }
+  .menu-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  .menu-card-desc {
+    font-size: 0.85rem;
+    color: rgba(245,240,232,0.5);
+    line-height: 1.8;
+  }
+  .menu-card-items {
+    margin-top: 1.5rem;
+    list-style: none;
+  }
+  .menu-card-items li {
+    font-size: 0.82rem;
+    color: rgba(245,240,232,0.6);
+    padding: 0.35rem 0;
+    border-bottom: 1px solid rgba(184,151,58,0.1);
+    display: flex; justify-content: space-between;
+  }
+  .menu-card-items li:last-child { border-bottom: none; }
+  .menu-card-items .price { color: var(--gold-light); }
+
+  .menu-cta {
+    text-align: center;
+    margin-top: 4rem;
+  }
+
+  /* ─── EXPERIENCE / PHOTO MOSAIC ─── */
+  .experience {
+    padding: 8rem 0;
+  }
+  .exp-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+  .exp-text .section-title { font-size: clamp(2.5rem, 4vw, 4rem); }
+  .exp-text p {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: rgba(245,240,232,0.65);
+    margin-bottom: 1.2rem;
+    margin-top: 1.5rem;
+  }
+  .exp-mosaic {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 200px 140px 200px;
+    gap: 12px;
+  }
+  .exp-tile {
+    background: var(--charcoal);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Shippori Mincho', serif;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .exp-tile:hover { border-color: var(--gold); }
+  .exp-tile:nth-child(1) { grid-row: span 2; }
+  .exp-tile:nth-child(4) { grid-row: span 2; }
+
+  .exp-tile-inner {
+    text-align: center;
+    padding: 2rem;
+  }
+  .exp-tile-jp {
+    font-size: 3rem;
+    color: rgba(184,151,58,0.25);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .exp-tile-en {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.3);
+  }
+  .exp-tile-large .exp-tile-jp { font-size: 5rem; }
+  .exp-tile-food {
+    background: linear-gradient(135deg, #1a1610 0%, #0e0c0a 100%);
+  }
+
+  /* ─── TESTIMONIALS ─── */
+  .testimonials {
+    padding: 8rem 0;
+    background: var(--charcoal);
+    overflow: hidden;
+  }
+  .testimonials-header {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
+  .testimonials-header .section-title { font-size: clamp(2.5rem, 4vw, 4rem); }
+  .testimonials-header .gold-rule { margin: 2rem auto; }
+
+  .testimonials-track {
+    display: flex; gap: 2rem;
+    animation: marquee 35s linear infinite;
+    width: max-content;
+  }
+  .testimonials-track:hover { animation-play-state: paused; }
+
+  .testi-card {
+    width: 380px;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    position: relative;
+    background: rgba(14,12,10,0.5);
+  }
+  .testi-quote-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    color: var(--gold);
+    opacity: 0.15;
+    line-height: 0.7;
+    position: absolute;
+    top: 1.5rem; left: 2rem;
+  }
+  .testi-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: rgba(245,240,232,0.8);
+    position: relative;
+    z-index: 1;
+    margin-top: 1rem;
+  }
+  .testi-author {
+    margin-top: 1.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .testi-stars {
+    margin-top: 0.5rem;
+    color: var(--gold-light);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+  }
+
+  /* ─── VISIT ─── */
+  .visit {
+    padding: 8rem 0;
+  }
+  .visit-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+  }
+  .visit-left .section-title { font-size: clamp(2.8rem, 4vw, 4.5rem); }
+  .visit-left p {
+    color: rgba(245,240,232,0.6);
+    line-height: 1.9;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+  }
+  .visit-right {}
+  .info-block {
+    border-top: 1px solid var(--border);
+    padding: 1.8rem 0;
+  }
+  .info-block:last-child { border-bottom: 1px solid var(--border); }
+  .info-block-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+  .info-block-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--parchment);
+    line-height: 1.5;
+  }
+  .info-block-value a { color: inherit; text-decoration: none; opacity: 0.7; transition: opacity 0.2s; }
+  .info-block-value a:hover { opacity: 1; color: var(--gold); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #080706;
+    padding: 5rem 4rem 3rem;
+    border-top: 1px solid var(--border);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 6rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+  }
+  .footer-brand-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 2.5rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+  .footer-brand-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: rgba(245,240,232,0.4);
+    line-height: 1.6;
+    max-width: 280px;
+  }
+  .footer-col-title {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.7rem; }
+  .footer-links a {
+    font-size: 0.88rem;
+    color: rgba(245,240,232,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy {
+    font-size: 0.72rem;
+    color: rgba(245,240,232,0.25);
+    letter-spacing: 0.1em;
+  }
+  .footer-kanji {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.5rem;
+    color: rgba(184,151,58,0.2);
+    letter-spacing: 0.3em;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ─── PHONE CTA ─── */
+  .phone-cta {
+    background: var(--gold);
+    padding: 5rem 0;
+    text-align: center;
+  }
+  .phone-cta .label {
+    font-size: 0.72rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(14,12,10,0.6);
+    margin-bottom: 1.5rem;
+  }
+  .phone-cta .number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 300;
+    color: var(--ink);
+    display: block;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .phone-cta .number:hover { opacity: 0.7; }
+  .phone-cta .sub {
+    font-size: 0.82rem;
+    color: rgba(14,12,10,0.5);
+    margin-top: 1rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 1.5rem 2rem; }
+    .nav-links { display: none; }
+    .container { padding: 0 2rem; }
+    .story { grid-template-columns: 1fr; gap: 3rem; padding: 6rem 0 5rem; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .menu-card:nth-child(n) { border-right: none; border-bottom: 1px solid var(--border); }
+    .exp-layout { grid-template-columns: 1fr; }
+    .exp-mosaic { display: none; }
+    .visit-layout { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-kanji { font-size: 15rem; }
+    .hero-line-left, .hero-line-right { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">小東京 Little Tokyo</a>
+  <ul class="nav-links">
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#visit">Visit</a></li>
+  </ul>
+  <a href="tel:2038667819" class="nav-reserve">Call to Reserve</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-kanji">鮨</div>
+  <div class="hero-line-left"></div>
+  <div class="hero-line-right"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Norwalk, Connecticut — Est. in the Heart of the City</p>
+    <h1 class="hero-title">Little<br><em>Tokyo</em></h1>
+    <p class="hero-subtitle">日本料理　— Authentic Japanese Cuisine</p>
+    <div class="hero-cta-row">
+      <a href="#menu" class="btn-primary">View Menu</a>
+      <a href="tel:2038667819" class="btn-ghost">Call for Pickup</a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>Discover</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE BAND -->
+<div class="intro-band">
+  <span class="intro-band-item">Fresh seafood from NY Seaport — daily</span>
+  <span class="intro-band-dot"></span>
+  <span class="intro-band-item">Sushi · Sashimi · Omakase</span>
+  <span class="intro-band-dot"></span>
+  <span class="intro-band-item">Dine In or Call for Pickup</span>
+  <span class="intro-band-dot"></span>
+  <span class="intro-band-item">Over 15 years of tradition</span>
+  <span class="intro-band-dot"></span>
+  <span class="intro-band-item">Unagi · Tempura · Steak & Lobster</span>
+  <span class="intro-band-dot"></span>
+  <span class="intro-band-item">Cozy · Intimate · Unforgettable</span>
+</div>
+
+<!-- STORY -->
+<section id="story">
+  <div class="container">
+    <div class="story">
+      <div class="story-left reveal">
+        <p class="section-label">Our Story</p>
+        <h2 class="section-title">A hidden gem,<br>fifteen years<br><em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold-light);">in the making.</em></h2>
+        <div class="gold-rule"></div>
+        <div class="story-stat-row">
+          <div class="story-stat">
+            <div class="story-stat-num">15+</div>
+            <div class="story-stat-label">Years Open</div>
+          </div>
+          <div class="story-stat">
+            <div class="story-stat-num">Daily</div>
+            <div class="story-stat-label">Fresh Deliveries</div>
+          </div>
+          <div class="story-stat">
+            <div class="story-stat-num">一</div>
+            <div class="story-stat-label">Of a kind</div>
+          </div>
+        </div>
+      </div>
+      <div class="story-right reveal reveal-delay-2">
+        <p>Tucked away in Norwalk, Little Tokyo has been a beloved secret for over fifteen years. <strong>Chef Henry</strong> runs the kitchen with a passion that finds its way into every plate — sushi crafted with intention, sashimi that speaks for itself, and off-menu specialties prepared for those who know to ask.</p>
+        <p>The seafood arrives fresh from the <strong>New York Seaport</strong> daily. The menu reads like a love letter to Japan: silky uni, buttery unagi, handrolls assembled to order, and a steak & lobster that arrives to the table still steaming.</p>
+        <p>This is not a restaurant that performs tradition. <strong>It lives it.</strong></p>
+        <div style="margin-top:2.5rem;">
+          <a href="#menu" class="btn-ghost">Explore the Menu →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu" class="menu-section">
+  <div class="container">
+    <div class="menu-header reveal">
+      <p class="section-label">The Menu</p>
+      <h2 class="section-title">Crafted with ceremony.</h2>
+      <div class="gold-rule"></div>
+      <p>A curated selection of Japan's finest — from the simplest miso to the most elaborate omakase. Off-menu requests welcome with advance notice.</p>
+    </div>
+
+    <div class="menu-grid">
+      <div class="menu-card reveal">
+        <div class="menu-card-kanji">鮨</div>
+        <div class="menu-card-num">01</div>
+        <h3 class="menu-card-title">Sushi &<br>Sashimi</h3>
+        <p class="menu-card-desc">Premium nigiri and sliced sashimi, prepared to order with fish delivered daily from New York's finest seafood market.</p>
+        <ul class="menu-card-items">
+          <li><span>Tuna Nigiri</span><span class="price">Market</span></li>
+          <li><span>Salmon Sashimi</span><span class="price">Market</span></li>
+          <li><span>Yellowtail</span><span class="price">Market</span></li>
+          <li><span>Chef's Selection</span><span class="price">Ask Henry</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-1">
+        <div class="menu-card-kanji">鰻</div>
+        <div class="menu-card-num">02</div>
+        <h3 class="menu-card-title">Unagi<br>Specialties</h3>
+        <p class="menu-card-desc">Henry's famous eel preparations — a house signature that keeps regulars returning for over a decade.</p>
+        <ul class="menu-card-items">
+          <li><span>Unagi Don</span><span class="price">$24</span></li>
+          <li><span>Unagi Nigiri</span><span class="price">$8</span></li>
+          <li><span>Eel Roll</span><span class="price">$16</span></li>
+          <li><span>Unaju</span><span class="price">$28</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-2">
+        <div class="menu-card-kanji">巻</div>
+        <div class="menu-card-num">03</div>
+        <h3 class="menu-card-title">Signature<br>Rolls</h3>
+        <p class="menu-card-desc">Creative maki crafted with precision — from the understated to the elaborate, each roll a small act of craft.</p>
+        <ul class="menu-card-items">
+          <li><span>Spider Roll</span><span class="price">$18</span></li>
+          <li><span>Dragon Roll</span><span class="price">$20</span></li>
+          <li><span>Rainbow Roll</span><span class="price">$22</span></li>
+          <li><span>Henry's Special</span><span class="price">Ask us</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal">
+        <div class="menu-card-kanji">天</div>
+        <div class="menu-card-num">04</div>
+        <h3 class="menu-card-title">Hot Kitchen</h3>
+        <p class="menu-card-desc">From delicate tempura to hearty dumplings, the kitchen handles both finesse and comfort in equal measure.</p>
+        <ul class="menu-card-items">
+          <li><span>Shrimp Tempura</span><span class="price">$16</span></li>
+          <li><span>Gyoza (6pc)</span><span class="price">$9</span></li>
+          <li><span>Shumai</span><span class="price">$8</span></li>
+          <li><span>Miso Soup</span><span class="price">$3</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-1">
+        <div class="menu-card-kanji">肉</div>
+        <div class="menu-card-num">05</div>
+        <h3 class="menu-card-title">Steak &<br>Seafood</h3>
+        <p class="menu-card-desc">For those who want something beyond the traditional — Henry's steak & lobster tail is a showstopper, arriving steaming to the table.</p>
+        <ul class="menu-card-items">
+          <li><span>Steak & Lobster Tail</span><span class="price">$48</span></li>
+          <li><span>Teriyaki Steak</span><span class="price">$28</span></li>
+          <li><span>Lobster Miso</span><span class="price">$32</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-2">
+        <div class="menu-card-kanji">前</div>
+        <div class="menu-card-num">06</div>
+        <h3 class="menu-card-title">Starters &<br>Sides</h3>
+        <p class="menu-card-desc">Begin with edamame, salad, or miso — the small pleasures that frame a great meal.</p>
+        <ul class="menu-card-items">
+          <li><span>Edamame</span><span class="price">$6</span></li>
+          <li><span>House Salad</span><span class="price">$7</span></li>
+          <li><span>Miso Soup</span><span class="price">$3</span></li>
+          <li><span>Agedashi Tofu</span><span class="price">$9</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="menu-cta reveal">
+      <p style="color:rgba(245,240,232,0.4);font-size:0.85rem;margin-bottom:1.5rem;letter-spacing:0.05em;">Off-menu items available with advance notice. Call to enquire.</p>
+      <a href="tel:2038667819" class="btn-primary">Call for Reservations</a>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="experience">
+  <div class="container">
+    <div class="exp-layout">
+      <div class="exp-text reveal">
+        <p class="section-label">The Experience</p>
+        <h2 class="section-title">Small room.<br>Big <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold-light);">soul.</em></h2>
+        <p>Little Tokyo is not designed to impress — it impresses anyway. The room is intimate. The tables are close. The kitchen is open, and Henry moves through it with the ease of someone who has done this, joyfully, for decades.</p>
+        <p>Regulars call it a <em style="font-family:'Cormorant Garamond',serif;">gem</em>. First-timers call their friends before the bill arrives. Those who've lived in Japan say it's the closest thing this side of the Pacific.</p>
+        <div style="margin-top:2.5rem;">
+          <a href="#visit" class="btn-ghost">Plan Your Visit →</a>
+        </div>
+      </div>
+      <div class="exp-mosaic reveal reveal-delay-2">
+        <div class="exp-tile exp-tile-food exp-tile-large">
+          <div class="exp-tile-inner">
+            <span class="exp-tile-jp">鮨</span>
+            <span class="exp-tile-en">Omakase</span>
+          </div>
+        </div>
+        <div class="exp-tile">
+          <div class="exp-tile-inner">
+            <span class="exp-tile-jp">鰻</span>
+            <span class="exp-tile-en">Unagi</span>
+          </div>
+        </div>
+        <div class="exp-tile">
+          <div class="exp-tile-inner">
+            <span class="exp-tile-jp">刺</span>
+            <span class="exp-tile-en">Sashimi</span>
+          </div>
+        </div>
+        <div class="exp-tile exp-tile-large">
+          <div class="exp-tile-inner">
+            <span class="exp-tile-jp">味</span>
+            <span class="exp-tile-en">Flavor</span>
+          </div>
+        </div>
+        <div class="exp-tile">
+          <div class="exp-tile-inner">
+            <span class="exp-tile-jp">天</span>
+            <span class="exp-tile-en">Tempura</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-header reveal">
+    <p class="section-label">What Guests Say</p>
+    <h2 class="section-title">Fifteen years of<br><em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold-light);">devoted regulars.</em></h2>
+    <div class="gold-rule"></div>
+  </div>
+
+  <div style="overflow:hidden;">
+    <div class="testimonials-track">
+      <!-- Set 1 -->
+      <div class="testi-card">
+        <div class="testi-quote-mark">"</div>
+        <p class="testi-text">Little Tokyo is a 10/10 experience. As someone who has gone for over 10 years and taken friends here many times, they all appreciate the quality and options available in such a hole-in-the-wall spot.</p>
+        <div class="testi-author">Josh C. — 10-Year Regular</div>
+        <div class="testi-stars">★ ★ ★ ★ ★</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote-mark">"</div>
+        <p class="testi-text">Having lived in Japan for nearly six years, I can say that Little Tokyo is a very authentic experience. The seafood comes up from the NY Seaport daily. Highly recommended.</p>
+        <div class="testi-author">Michael C. — Japan Expat</div>
+        <div class="testi-stars">★ ★ ★ ★ ★</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote-mark">"</div>
+        <p class="testi-text">This place is a GEM. Super cozy vibes; the owner and chef are incredibly friendly and knew many of the folks that came in. Delicious fresh sushi and great value.</p>
+        <div class="testi-author">Leanna S. — Traveling Guest</div>
+        <div class="testi-stars">★ ★ ★ ★ ★</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote-mark">"</div>
+        <p class="testi-text">Best sushi in Norwalk easily. Henry loves his customers and his restaurant and you can taste it in the food that is served.</p>
+        <div class="testi-author">Doug F. — Regular Guest</div>
+        <div class="testi-stars">★ ★ ★ ★ ★</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote-mark">"</div>
+        <p class="testi-text">Amazing food at a great price. My favorite place to go after a long day of work. Call in for pickup or dine in for a unique experience.</p>
+        <div class="testi-author">Gabriel D. — Local Favorite</div>
+        <div class="testi-stars">★ ★ ★ ★ ★</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote-mark">"</div>
+        <p class="testi-text">Best Japanese food in the state, if not the country. Henry and the gang outdo themselves every time. I would eat here every meal if I could.</p>
+        <div class="testi-author">Katherine W. — Five Stars</div>
+        <div class="testi-stars">★ ★ ★ ★ ★</div>
+      </div>
+      <!-- Duplicate for seamless loop -->
+      <div class="testi-card">
+        <div class="testi-quote-mark">"</div>
+        <p class="testi-text">Little Tokyo is a 10/10 experience. As someone who has gone for over 10 years and taken friends here many times, they all appreciate the quality and options available in such a hole-in-the-wall spot.</p>
+        <div class="testi-author">Josh C. — 10-Year Regular</div>
+        <div class="testi-stars">★ ★ ★ ★ ★</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote-mark">"</div>
+        <p class="testi-text">Having lived in Japan for nearly six years, I can say that Little Tokyo is a very authentic experience. The seafood comes up from the NY Seaport daily. Highly recommended.</p>
+        <div class="testi-author">Michael C. — Japan Expat</div>
+        <div class="testi-stars">★ ★ ★ ★ ★</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote-mark">"</div>
+        <p class="testi-text">This place is a GEM. Super cozy vibes; the owner and chef are incredibly friendly and knew many of the folks that came in. Delicious fresh sushi and great value.</p>
+        <div class="testi-author">Leanna S. — Traveling Guest</div>
+        <div class="testi-stars">★ ★ ★ ★ ★</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote-mark">"</div>
+        <p class="testi-text">Best sushi in Norwalk easily. Henry loves his customers and his restaurant and you can taste it in the food that is served.</p>
+        <div class="testi-author">Doug F. — Regular Guest</div>
+        <div class="testi-stars">★ ★ ★ ★ ★</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote-mark">"</div>
+        <p class="testi-text">Amazing food at a great price. My favorite place to go after a long day of work. Call in for pickup or dine in for a unique experience.</p>
+        <div class="testi-author">Gabriel D. — Local Favorite</div>
+        <div class="testi-stars">★ ★ ★ ★ ★</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote-mark">"</div>
+        <p class="testi-text">Best Japanese food in the state, if not the country. Henry and the gang outdo themselves every time. I would eat here every meal if I could.</p>
+        <div class="testi-author">Katherine W. — Five Stars</div>
+        <div class="testi-stars">★ ★ ★ ★ ★</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHONE CTA -->
+<div class="phone-cta">
+  <p class="label">Reservations & Pickup</p>
+  <a href="tel:2038667819" class="number">(203) 866-7819</a>
+  <p class="sub">Call ahead for off-menu requests — Chef Henry is happy to accommodate</p>
+</div>
+
+<!-- VISIT -->
+<section id="visit" class="visit">
+  <div class="container">
+    <div class="visit-layout">
+      <div class="visit-left reveal">
+        <p class="section-label">Find Us</p>
+        <h2 class="section-title">Come as<br>a guest.<br><em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold-light);">Leave as family.</em></h2>
+        <p>We're a small restaurant with no pretense — just exceptional food and a warmth that regulars have trusted for over fifteen years. Walk in, or call ahead. Either way, something memorable is waiting.</p>
+      </div>
+      <div class="visit-right reveal reveal-delay-2">
+        <div class="info-block">
+          <div class="info-block-label">Address</div>
+          <div class="info-block-value">
+            <a href="https://maps.google.com/?q=98+Washington+Street+Norwalk+CT" target="_blank">
+              98 Washington Street<br>Norwalk, CT 06854
+            </a>
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Phone</div>
+          <div class="info-block-value"><a href="tel:2038667819">(203) 866-7819</a></div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Hours</div>
+          <div class="info-block-value">
+            Tue – Sun<br>
+            Lunch 11:30am – 3pm<br>
+            Dinner 5pm – 10pm<br>
+            <span style="font-size:0.8rem;color:var(--warm-gray);font-family:'DM Sans',sans-serif;margin-top:0.3rem;display:block;">Closed Mondays</span>
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Dining Options</div>
+          <div class="info-block-value">Dine In · Takeout · Call Ahead</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Pricing</div>
+          <div class="info-block-value">$10 – $50 per person</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">小東京</div>
+      <div class="footer-brand-tagline">"The closest thing to Japan this side of the Pacific — fresh, honest, and made with love."</div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <ul class="footer-links">
+        <li><a href="#story">Our Story</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#experience">The Experience</a></li>
+        <li><a href="#visit">Visit Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <ul class="footer-links">
+        <li><a href="tel:2038667819">(203) 866-7819</a></li>
+        <li><a href="https://maps.google.com/?q=98+Washington+Street+Norwalk+CT" target="_blank">98 Washington St, Norwalk CT</a></li>
+        <li><a href="https://sushihenry.com" target="_blank">sushihenry.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© Little Tokyo — Norwalk, Connecticut. All rights reserved.</div>
+    <div class="footer-kanji">鮨　鰻　味</div>
+  </div>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '16px';
+      cursor.style.height = '16px';
+      ring.style.width = '56px';
+      ring.style.height = '56px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '8px';
+      cursor.style.height = '8px';
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
